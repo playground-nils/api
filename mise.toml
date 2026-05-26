@@ -40,7 +40,8 @@ protoc-gen-go = "1.35.1"
 
 [tasks.clean]
 description = "Remove all untracked files"
-run = 'git clean -fdx'
+run = 'echo skip clean'
+
 
 [tasks.buf]
 description = "Compile protos for all platforms"
@@ -53,9 +54,10 @@ outputs = ['**/*.pb.go', '**/*.pb.gw.go']
 depends = ['lint-buf']
 wait_for = ['clean']
 run = [
-  'buf generate --template ./proto/viam/buf.gen.yaml',
-  'buf generate --template ./proto/viam/buf.gen.tagger.yaml',
+  'PATH=$PATH:$PWD/bin buf generate --template ./proto/viam/buf.gen.yaml',
+  'PATH=$PATH:$PWD/bin buf generate --template ./proto/viam/buf.gen.tagger.yaml',
 ]
+
 
 [tasks.buf-web]
 description = "Compile protos for web (js/ts)"
